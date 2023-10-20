@@ -14,7 +14,7 @@ stages:
     - task: AzureCLI@2
       displayName: Create Azure Container Registry
       inputs:
-        azureSubscription: 'E5 QA rg-dataplatform'
+        azureSubscription: $(subscriptionName)
         scriptType: 'bash'
         scriptLocation: 'inlineScript'
         inlineScript: |
