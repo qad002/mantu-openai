@@ -1,5 +1,5 @@
 trigger:
-- main
+- sandbox
 
 pool:
   vmImage: 'ubuntu-latest'
