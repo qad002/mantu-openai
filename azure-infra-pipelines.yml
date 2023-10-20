@@ -1,8 +1,13 @@
-trigger: 
+trigger:
 - main
 
 pool:
   vmImage: 'ubuntu-latest'
+
+variables:
+  registryName: 'chatbotsandbox'
+  imageName: 'sample-app'
+  tag: '$(Build.BuildId)'
 
 stages:
 - stage: CreateACR
@@ -25,3 +30,27 @@ stages:
             --sku $(sku) \
             --admin-enabled false
 
+- stage: BuildAndPushImage
+  displayName: Build and Push Docker Image
+  dependsOn: CreateACR
+  jobs:
+  - job: BuildAndPushImageJob
+    displayName: Build and Push Image Job
+    steps:
+    - task: Docker@2
+      displayName: Login to ACR
+      inputs:
+        command: login
+        containerRegistry: $(registryName)
+        azureSubscription: $(subscriptionName)
+
+    - task: Docker@2
+      displayName: Build and Push Docker Image
+      inputs:
+        command: buildAndPush
+        repository: $(registryName).azurecr.io/$(imageName)
+        containerRegistry: $(registryName)
+        azureSubscription: $(subscriptionName)
+        dockerfile: '**/WebApp.Dockerfile'
+        tags: |
+          $(tag)
