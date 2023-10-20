@@ -1,0 +1,27 @@
+trigger: 
+- main
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+stages:
+- stage: CreateACR
+  displayName: Create Azure Container Registry
+  jobs:
+  - job: CreateACRJob
+    displayName: Create ACR Job
+    steps:
+    - task: AzureCLI@2
+      displayName: Create Azure Container Registry
+      inputs:
+        azureSubscription: 'E5 QA rg-dataplatform'
+        scriptType: 'bash'
+        scriptLocation: 'inlineScript'
+        inlineScript: |
+          az acr create \
+            --name $(registryName) \
+            --resource-group $(resourceGroupName) \
+            --location $(location) \
+            --sku $(sku) \
+            --admin-enabled false
+
