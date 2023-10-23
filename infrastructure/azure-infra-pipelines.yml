@@ -9,6 +9,7 @@ variables:
   HostingPlanName: 'asp-cog-mantuopenai-front-sandbox'
   HostingPlanSku: 'B1'
   WebsiteName: 'cog-mantuopenai-front-sandbox'
+  WebAppEnableChatHistory: 'True'
   AZURE_SEARCH_SERVICE: 'cog-mantuopenai-searchservice'
   AZURE_SEARCH_INDEX: 'mantuchat'
   AZURE_SEARCH_KEY: 'ypBnD1NPYkRAbhCSTcaO2CG5hbrQPQ5mpn2VA2fjA6AzSeCGDu3z'
@@ -77,6 +78,7 @@ stages:
                     HostingPlanName=$(HostingPlanName) \
                     HostingPlanSku=$(HostingPlanSku) \
                     WebsiteName=$(WebsiteName) \
+                    WebAppEnableChatHistory=$(WebAppEnableChatHistory)
                     AzureSearchService=$(AZURE_SEARCH_SERVICE) \
                     AzureSearchIndex=$(AZURE_SEARCH_INDEX) \
                     AzureSearchKey=$(AZURE_SEARCH_KEY) \
