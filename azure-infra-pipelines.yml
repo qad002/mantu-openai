@@ -39,7 +39,7 @@ stages:
       displayName: Login to ACR
       inputs:
         command: login
-        containerRegistry: $(registryName)
+        containerRegistry: $(ACRServiceConnection)
         azureSubscription: $(subscriptionName)
 
     - task: Docker@2
@@ -47,8 +47,9 @@ stages:
       inputs:
         command: buildAndPush
         repository: $(registryName).azurecr.io/$(imageName)
-        containerRegistry: $(registryName)
+        containerRegistry: 'ACRServiceConnection'
         azureSubscription: $(subscriptionName)
         dockerfile: '**/WebApp.Dockerfile'
         tags: |
           $(tag)
+
