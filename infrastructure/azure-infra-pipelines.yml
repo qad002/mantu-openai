@@ -101,7 +101,7 @@ stages:
                     AzureOpenAITopP=$(AZURE_OPENAI_TOP_P) \
                     AzureOpenAIMaxTokens=$(AZURE_OPENAI_MAX_TOKENS) \
                     AzureOpenAIStopSequence=$(AZURE_OPENAI_STOP_SEQUENCE) \
-                    AzureOpenAISystemMessage=$(AZURE_OPENAI_SYSTEM_MESSAGE) \
+                    AzureOpenAISystemMessage="$(AZURE_OPENAI_SYSTEM_MESSAGE)" \
                     AzureOpenAIApiVersion=$(AZURE_OPENAI_PREVIEW_API_VERSION) \
                     AzureOpenAIStream=$(AZURE_OPENAI_STREAM) \
                     AzureOpenAIEndpoint=$(AZURE_OPENAI_ENDPOINT) \
