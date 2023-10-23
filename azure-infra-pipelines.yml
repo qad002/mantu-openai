@@ -103,8 +103,8 @@ stages:
                 -AzureCosmosDBDatabase "$(AZURE_COSMOSDB_DATABASE)"
                 -AzureCosmosDBConversationsContainer "$(AZURE_COSMOSDB_CONVERSATIONS_CONTAINER)"
                 -AzureCosmosDBAccountKey "$(AZURE_COSMOSDB_ACCOUNT_KEY)"
-                
-  - job: CreateACRJob
+
+  - job: CreateACR
     displayName: Create ACR
     steps:
     - task: AzureCLI@2
@@ -124,7 +124,6 @@ stages:
 - stage: BuildAndPushImage
   displayName: Build and Push Docker Image
   dependsOn: 
-    - CreateACR
     - DeployInfrastructure
   jobs:
   - job: BuildAndPushImageJob
@@ -147,4 +146,3 @@ stages:
         dockerfile: '**/WebApp.Dockerfile'
         tags: |
           $(tag)
-
