@@ -45,14 +45,6 @@ variables:
   AZURE_COSMOSDB_ACCOUNT_KEY: ''
 
 stages:
-- stage: CheckoutRepo
-  displayName: 'Checkout Repository'
-  jobs:
-  - job: CheckoutJob
-    displayName: 'Checkout Job'
-    steps:
-    - checkout: self
-
 - stage: DeployInfrastructure
   displayName: 'Deploy Infrastructure'
   jobs:
