@@ -52,7 +52,7 @@ stages:
     displayName: 'Checkout Job'
     steps:
     - checkout: self
-    
+
 - stage: DeployInfrastructure
   displayName: 'Deploy Infrastructure'
   jobs:
@@ -63,9 +63,13 @@ stages:
       runOnce:
         deploy:
           steps:
+          - checkout: self
           - script: pwd
             displayName: 'Print Working Directory'
-
+          - script: |
+              ls -al $(Build.SourcesDirectory)
+              ls -al $(Build.SourcesDirectory)/infrastructure
+            displayName: 'List Directory Contents'
           - task: AzureCLI@2
             displayName: Deploy ARM Template
             inputs:
@@ -115,23 +119,19 @@ stages:
                     AzureCosmosDBDatabase=$(AZURE_COSMOSDB_DATABASE) \
                     AzureCosmosDBConversationsContainer=$(AZURE_COSMOSDB_CONVERSATIONS_CONTAINER) \
                     AzureCosmosDBAccountKey=$(AZURE_COSMOSDB_ACCOUNT_KEY)
-
-  - job: CreateACR
-    displayName: Create ACR
-    steps:
-    - task: AzureCLI@2
-      displayName: Create Azure Container Registry
-      inputs:
-        azureSubscription: $(subscriptionName)
-        scriptType: 'bash'
-        scriptLocation: 'inlineScript'
-        inlineScript: |
-          az acr create \
-            --name $(registryName) \
-            --resource-group $(resourceGroupName) \
-            --location $(location) \
-            --sku $(sku) \
-            --admin-enabled false
+          - task: AzureCLI@2
+            displayName: Create Azure Container Registry
+            inputs:
+              azureSubscription: $(subscriptionName)
+              scriptType: 'bash'
+              scriptLocation: 'inlineScript'
+              inlineScript: |
+                az acr create \
+                  --name $(registryName) \
+                  --resource-group $(resourceGroupName) \
+                  --location $(location) \
+                  --sku $(sku) \
+                  --admin-enabled false
 
 - stage: BuildAndPushImage
   displayName: Build and Push Docker Image
