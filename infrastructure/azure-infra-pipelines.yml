@@ -52,58 +52,60 @@ stages:
   jobs:
   - deployment: DeployResources
     displayName: 'Deploy Resources'
-    environment: $(environment)
+    environment: $(resourceGroupName)
     strategy:
       runOnce:
         deploy:
           steps:
-          - task: AzureResourceGroupDeployment@2
+          - task: AzureCLI@2
+            displayName: Deploy ARM Template
             inputs:
               azureSubscription: $(subscriptionName)
-              action: 'Create Or Update Resource Group'
-              resourceGroupName: $(resourceGroupName)
-              location: $(location)
-              templateLocation: 'Linked artifact'
-              csmFile: $(csmFile)
-              deploymentMode: 'Incremental'
-              overrideParameters: |
-                -HostingPlanName "$(HostingPlanName)"
-                -HostingPlanSku: "$(HostingPlanSku)"
-                -WebsiteName "$(WebsiteName)"
-                -AzureSearchService "$(AZURE_SEARCH_SERVICE)"
-                -AzureSearchIndex "$(AZURE_SEARCH_INDEX)"
-                -AzureSearchKey "$(AZURE_SEARCH_KEY)"
-                -AzureSearchUseSemanticSearch "$(AZURE_SEARCH_USE_SEMANTIC_SEARCH)"
-                -AzureSearchSemanticSearchConfig "$(AZURE_SEARCH_SEMANTIC_SEARCH_CONFIG)"
-                -AzureSearchIndexIsPrechunked "$(AZURE_SEARCH_INDEX_IS_PRECHUNKED)"
-                -AzureSearchTopK "$(AZURE_SEARCH_TOP_K)"
-                -AzureSearchEnableInDomain "$(AZURE_SEARCH_ENABLE_IN_DOMAIN)"
-                -AzureSearchContentColumns "$(AZURE_SEARCH_CONTENT_COLUMNS)"
-                -AzureSearchFilenameColumn "$(AZURE_SEARCH_FILENAME_COLUMN)"
-                -AzureSearchTitleColumn "$(AZURE_SEARCH_TITLE_COLUMN)"
-                -AzureSearchUrlColumn "$(AZURE_SEARCH_URL_COLUMN)"
-                -AzureSearchVectorColumns "$(AZURE_SEARCH_VECTOR_COLUMNS)"
-                -AzureSearchQueryType "$(AZURE_SEARCH_QUERY_TYPE)"
-                -AzureSearchPermittedGroupsColumn "$(AZURE_SEARCH_PERMITTED_GROUPS_COLUMN)"
-                -AzureSearchStrictness "$(AZURE_SEARCH_STRICTNESS)"
-                -AzureOpenAIResource "$(AZURE_OPENAI_RESOURCE)"
-                -AzureOpenAIModel "$(AZURE_OPENAI_MODEL)"
-                -AzureOpenAIKey "$(AZURE_OPENAI_KEY)"
-                -AzureOpenAIModelName "$(AZURE_OPENAI_MODEL_NAME)"
-                -AzureOpenAITemperature "$(AZURE_OPENAI_TEMPERATURE)"
-                -AzureOpenAITopP "$(AZURE_OPENAI_TOP_P)"
-                -AzureOpenAIMaxTokens "$(AZURE_OPENAI_MAX_TOKENS)"
-                -AzureOpenAIStopSequence "$(AZURE_OPENAI_STOP_SEQUENCE)"
-                -AzureOpenAISystemMessage "$(AZURE_OPENAI_SYSTEM_MESSAGE)"
-                -AzureOpenAIApiVersion "$(AZURE_OPENAI_PREVIEW_API_VERSION)"
-                -AzureOpenAIStream "$(AZURE_OPENAI_STREAM)"
-                -AzureOpenAIEndpoint "$(AZURE_OPENAI_ENDPOINT)"
-                -AzureOpenAIEmbeddingEndpoint "$(AZURE_OPENAI_EMBEDDING_ENDPOINT)"
-                -AzureOpenAIEmbeddingKey "$(AZURE_OPENAI_EMBEDDING_KEY)"
-                -AzureCosmosDBAccount "$(AZURE_COSMOSDB_ACCOUNT)"
-                -AzureCosmosDBDatabase "$(AZURE_COSMOSDB_DATABASE)"
-                -AzureCosmosDBConversationsContainer "$(AZURE_COSMOSDB_CONVERSATIONS_CONTAINER)"
-                -AzureCosmosDBAccountKey "$(AZURE_COSMOSDB_ACCOUNT_KEY)"
+              scriptType: 'bash'
+              scriptLocation: 'inlineScript'
+              inlineScript: |
+                az deployment group create \
+                  --name ExampleDeployment \
+                  --resource-group $(resourceGroupName) \
+                  --template-file infrastructure/deployment.json \
+                  --parameters \
+                    HostingPlanName=$(HostingPlanName) \
+                    HostingPlanSku=$(HostingPlanSku) \
+                    WebsiteName=$(WebsiteName) \
+                    AzureSearchService=$(AZURE_SEARCH_SERVICE) \
+                    AzureSearchIndex=$(AZURE_SEARCH_INDEX) \
+                    AzureSearchKey=$(AZURE_SEARCH_KEY) \
+                    AzureSearchUseSemanticSearch=$(AZURE_SEARCH_USE_SEMANTIC_SEARCH) \
+                    AzureSearchSemanticSearchConfig=$(AZURE_SEARCH_SEMANTIC_SEARCH_CONFIG) \
+                    AzureSearchIndexIsPrechunked=$(AZURE_SEARCH_INDEX_IS_PRECHUNKED) \
+                    AzureSearchTopK=$(AZURE_SEARCH_TOP_K) \
+                    AzureSearchEnableInDomain=$(AZURE_SEARCH_ENABLE_IN_DOMAIN) \
+                    AzureSearchContentColumns=$(AZURE_SEARCH_CONTENT_COLUMNS) \
+                    AzureSearchFilenameColumn=$(AZURE_SEARCH_FILENAME_COLUMN) \
+                    AzureSearchTitleColumn=$(AZURE_SEARCH_TITLE_COLUMN) \
+                    AzureSearchUrlColumn=$(AZURE_SEARCH_URL_COLUMN) \
+                    AzureSearchVectorColumns=$(AZURE_SEARCH_VECTOR_COLUMNS) \
+                    AzureSearchQueryType=$(AZURE_SEARCH_QUERY_TYPE) \
+                    AzureSearchPermittedGroupsColumn=$(AZURE_SEARCH_PERMITTED_GROUPS_COLUMN) \
+                    AzureSearchStrictness=$(AZURE_SEARCH_STRICTNESS) \
+                    AzureOpenAIResource=$(AZURE_OPENAI_RESOURCE) \
+                    AzureOpenAIModel=$(AZURE_OPENAI_MODEL) \
+                    AzureOpenAIKey=$(AZURE_OPENAI_KEY) \
+                    AzureOpenAIModelName=$(AZURE_OPENAI_MODEL_NAME) \
+                    AzureOpenAITemperature=$(AZURE_OPENAI_TEMPERATURE) \
+                    AzureOpenAITopP=$(AZURE_OPENAI_TOP_P) \
+                    AzureOpenAIMaxTokens=$(AZURE_OPENAI_MAX_TOKENS) \
+                    AzureOpenAIStopSequence=$(AZURE_OPENAI_STOP_SEQUENCE) \
+                    AzureOpenAISystemMessage=$(AZURE_OPENAI_SYSTEM_MESSAGE) \
+                    AzureOpenAIApiVersion=$(AZURE_OPENAI_PREVIEW_API_VERSION) \
+                    AzureOpenAIStream=$(AZURE_OPENAI_STREAM) \
+                    AzureOpenAIEndpoint=$(AZURE_OPENAI_ENDPOINT) \
+                    AzureOpenAIEmbeddingEndpoint=$(AZURE_OPENAI_EMBEDDING_ENDPOINT) \
+                    AzureOpenAIEmbeddingKey=$(AZURE_OPENAI_EMBEDDING_KEY) \
+                    AzureCosmosDBAccount=$(AZURE_COSMOSDB_ACCOUNT) \
+                    AzureCosmosDBDatabase=$(AZURE_COSMOSDB_DATABASE) \
+                    AzureCosmosDBConversationsContainer=$(AZURE_COSMOSDB_CONVERSATIONS_CONTAINER) \
+                    AzureCosmosDBAccountKey=$(AZURE_COSMOSDB_ACCOUNT_KEY)
 
   - job: CreateACR
     displayName: Create ACR
