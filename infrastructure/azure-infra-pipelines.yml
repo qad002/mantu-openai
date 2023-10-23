@@ -91,7 +91,7 @@ stages:
                     AzureSearchUrlColumn=$(AZURE_SEARCH_URL_COLUMN) \
                     AzureSearchVectorFields=$(AZURE_SEARCH_VECTOR_COLUMNS) \
                     AzureSearchQueryType=$(AZURE_SEARCH_QUERY_TYPE) \
-                    AzureSearchPermittedGroupsColumn=$(AZURE_SEARCH_PERMITTED_GROUPS_COLUMN) \
+                    AzureSearchPermittedGroupsField=$(AZURE_SEARCH_PERMITTED_GROUPS_COLUMN) \
                     AzureSearchStrictness=$(AZURE_SEARCH_STRICTNESS) \
                     AzureOpenAIResource=$(AZURE_OPENAI_RESOURCE) \
                     AzureOpenAIModel=$(AZURE_OPENAI_MODEL) \
