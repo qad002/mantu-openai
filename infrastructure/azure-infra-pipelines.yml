@@ -6,6 +6,7 @@ pool:
 
 variables:
   tag: '$(Build.BuildId)'
+  csmFIle: 'infrastructure/deployment.json'
   HostingPlanName: 'asp-cog-mantuopenai-front-sandbox'
   HostingPlanSku: 'B1'
   WebsiteName: 'cog-mantuopenai-front-sandbox'
@@ -63,7 +64,7 @@ stages:
               resourceGroupName: $(resourceGroupName)
               location: $(location)
               templateLocation: 'Linked artifact'
-              csmFile: 'infrastructure/deployment.json'
+              csmFile: $(csmFile)
               deploymentMode: 'Incremental'
               overrideParameters: |
                 -HostingPlanName "$(HostingPlanName)"
