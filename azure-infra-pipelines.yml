@@ -63,7 +63,7 @@ stages:
               resourceGroupName: $(resourceGroupName)
               location: $(location)
               templateLocation: 'Linked artifact'
-              csmFile: './infrastructure.json'
+              csmFile: './infrastructure/deployment.json'
               deploymentMode: 'Incremental'
               overrideParameters: |
                 -HostingPlanName "$(HostingPlanName)"
@@ -146,3 +146,4 @@ stages:
         dockerfile: '**/WebApp.Dockerfile'
         tags: |
           $(tag)
+
