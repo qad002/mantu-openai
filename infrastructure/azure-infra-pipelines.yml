@@ -104,7 +104,6 @@ stages:
                     AzureOpenAISystemMessage="$(AZURE_OPENAI_SYSTEM_MESSAGE)" \
                     AzureOpenAIApiVersion=$(AZURE_OPENAI_PREVIEW_API_VERSION) \
                     AzureOpenAIStream=$(AZURE_OPENAI_STREAM) \
-                    AzureOpenAIEndpoint=$(AZURE_OPENAI_ENDPOINT) \
                     AzureOpenAIEmbeddingEndpoint=$(AZURE_OPENAI_EMBEDDING_ENDPOINT) \
                     AzureOpenAIEmbeddingKey=$(AZURE_OPENAI_EMBEDDING_KEY) \
                     AzureCosmosDBAccount=$(AZURE_COSMOSDB_ACCOUNT) \
