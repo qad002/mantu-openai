@@ -175,7 +175,7 @@ stages:
         appType: 'webAppContainer'
         WebAppName: $(WebsiteName)
         DockerNamespace: $(registryName).azurecr.io
-        DockerRepository: $(imageName)
+        DockerRepository: $(registryName).azurecr.io/$(imageName)
         DockerImageTag: $(tag)
 
 
