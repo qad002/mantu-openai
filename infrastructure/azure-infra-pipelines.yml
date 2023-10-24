@@ -5,6 +5,7 @@ pool:
   vmImage: 'ubuntu-latest'
 
 variables:
+- group: rg-ChatBot-Sandbox
   tag: '$(Build.BuildId)'
   ACRserviceConnection: 'acr-chatbot-sandbox-connection'
   imageName: 'ChatGuru-app'
@@ -126,7 +127,7 @@ stages:
                   --resource-group $(resourceGroupName) \
                   --location $(location) \
                   --sku $(AcrSku) \
-                  --admin-enabled false
+                  --admin-enabled true
           - task: AzureCLI@2
             displayName: 'Grant Web App Access to ACR'
             inputs:
@@ -157,6 +158,8 @@ stages:
         command: login
         containerRegistry: $(ACRServiceConnection)
         azureSubscription: $(subscriptionName)
+        username: $(acrUsername)
+        password: $(acrPassword)
 
     - task: Docker@2
       displayName: Build and Push Docker Image
