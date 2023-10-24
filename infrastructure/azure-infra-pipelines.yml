@@ -6,6 +6,13 @@ pool:
 
 variables:
   tag: '$(Build.BuildId)'
+  ACRserviceConnection: 'acr-chatbot-sandbox-connection'
+  imageName: 'ChatGuru-app'
+  location: 'westeurope'
+  registryName: 'chatbotsandbox'
+  resourceGroupName: 'rg-Chatbot-Sandbox'
+  AcrSku: 'Basic'
+  subscriptionName: 'Mantu Group - NoProd'
   HostingPlanName: 'asp-cog-mantuopenai-front-sandbox'
   HostingPlanSku: 'B1'
   WebsiteName: 'cog-mantuopenai-front-sandbox'
@@ -117,7 +124,7 @@ stages:
                   --name $(registryName) \
                   --resource-group $(resourceGroupName) \
                   --location $(location) \
-                  --sku $(sku) \
+                  --sku $(AcrSku) \
                   --admin-enabled false
 
 - stage: BuildPushDeployImage
