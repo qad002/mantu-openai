@@ -192,40 +192,40 @@ stages:
                 # Assign the acrpull role to the service principal
                 az role assignment create --assignee $principalId --role acrpull --scope $acrId
 
-  - stage: DockerImage
-    displayName: Docker Image
-    dependsOn: 
-      - DeployInfrastructure
-    jobs:
-    - job: BuildPushDeployImageJob
-      displayName: Build, Push and Deploy Image Job
-      steps:
-      - task: Docker@2
-        displayName: Login to ACR
-        inputs:
-          command: login
-          containerRegistry: $(ACRServiceConnection)
-          azureSubscription: $(subscriptionName)
-          username: $(acrUsername)
-          password: $(acrPassword)
+- stage: DockerImage
+  displayName: Docker Image
+  dependsOn: 
+    - DeployInfrastructure
+  jobs:
+  - job: BuildPushDeployImageJob
+    displayName: Build, Push and Deploy Image Job
+    steps:
+    - task: Docker@2
+      displayName: Login to ACR
+      inputs:
+        command: login
+        containerRegistry: $(ACRServiceConnection)
+        azureSubscription: $(subscriptionName)
+        username: $(acrUsername)
+        password: $(acrPassword)
 
-      - task: Docker@2
-        displayName: Build and Push Docker Image
-        inputs:
-          command: buildAndPush
-          repository: $(imageName)
-          containerRegistry: $(ACRServiceConnection)
-          azureSubscription: $(subscriptionName)
-          dockerfile: '**/WebApp.Dockerfile'
-          tags: |
-            $(tag)
-            
-      - script: |
-          az webapp config container set \
-            --name $(WebsiteName) \
-            --resource-group $(resourceGroupName) \
-            --docker-custom-image-name $(registryName).azurecr.io/$(imageName):$(tag) \
-            --docker-registry-server-url https://$(registryName).azurecr.io
-        displayName: 'Deploy Docker image using Azure CLI'
+    - task: Docker@2
+      displayName: Build and Push Docker Image
+      inputs:
+        command: buildAndPush
+        repository: $(imageName)
+        containerRegistry: $(ACRServiceConnection)
+        azureSubscription: $(subscriptionName)
+        dockerfile: '**/WebApp.Dockerfile'
+        tags: |
+          $(tag)
+          
+    - script: |
+        az webapp config container set \
+          --name $(WebsiteName) \
+          --resource-group $(resourceGroupName) \
+          --docker-custom-image-name $(registryName).azurecr.io/$(imageName):$(tag) \
+          --docker-registry-server-url https://$(registryName).azurecr.io
+      displayName: 'Deploy Docker image using Azure CLI'
 
 
