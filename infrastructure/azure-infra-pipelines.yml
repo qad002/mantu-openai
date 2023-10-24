@@ -127,6 +127,21 @@ stages:
                   --location $(location) \
                   --sku $(AcrSku) \
                   --admin-enabled false
+          - task: AzureCLI@2
+            displayName: 'Grant Web App Access to ACR'
+            inputs:
+              azureSubscription: $(subscriptionName)
+              scriptType: 'bash'
+              scriptLocation: 'inlineScript'
+              inlineScript: |
+                # Get the id of the service principal configured for your web app
+                principalId=$(az webapp identity show --name $(WebsiteName) --resource-group $(resourceGroupName) --query principalId --out tsv)
+
+                # Get the id of your ACR
+                acrId=$(az acr show --name $(registryName) --resource-group $(resourceGroupName) --query "id" --output tsv)
+                
+                # Assign the acrpull role to the service principal
+                az role assignment create --assignee $principalId --role acrpull --scope $acrId
 
 - stage: DockerImage
   displayName: Docker Image
