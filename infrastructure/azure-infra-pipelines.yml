@@ -10,13 +10,13 @@ variables:
   - name: ACRserviceConnection
     value: 'acr-chatbot-sandbox-connection'
   - name: imageName
-    value: 'ChatGuru-app'
+    value: 'chatguru-app'
   - name: location
     value: 'westeurope'
   - name: registryName
     value: 'chatbotsandbox'
   - name: WebAppImageName
-    value: "DOCKER|chatbotsandbox.azurecr.io/ChatGuru-app:latest"
+    value: "DOCKER|chatbotsandbox.azurecr.io/chatguru-app:latest"
   - name: resourceGroupName
     value: 'rg-Chatbot-Sandbox'
   - name: AcrSku
@@ -226,7 +226,7 @@ stages:
         appType: 'webAppContainer'
         WebAppName: $(WebsiteName)
         DockerNamespace: $(registryName).azurecr.io
-        DockerRepository: $(registryName).azurecr.io/$(imageName)
+        DockerRepository: $(imageName)
         DockerImageTag: $(tag)
 
 
