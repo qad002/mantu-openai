@@ -267,7 +267,6 @@
         }
     },
     "variables": {
-        "WebAppImageName": "DOCKER|fruoccopublic.azurecr.io/sample-app-aoai-chatgpt:latest",
         "cosmosdb_account_name": "[format('db-{0}', parameters('WebsiteName'))]",
         "cosmosdb_database_name": "db_conversation_history",
         "cosmosdb_container_name": "conversations",
@@ -441,7 +440,7 @@
                             "value": "[variables('cosmosdb_container_name')]"
                         }
                     ],
-                    "linuxFxVersion": "[variables('WebAppImageName')]"
+                    "linuxFxVersion": "[parameters('WebAppImageName')]"
                 }
             }
         },

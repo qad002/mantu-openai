@@ -10,6 +10,7 @@ variables:
   imageName: 'ChatGuru-app'
   location: 'westeurope'
   registryName: 'chatbotsandbox'
+  WebAppImageName: "DOCKER|chatbotsandbox.azurecr.io/ChatGuru-app:latest"
   resourceGroupName: 'rg-Chatbot-Sandbox'
   AcrSku: 'Basic'
   subscriptionName: 'Mantu Group - NoProd'
