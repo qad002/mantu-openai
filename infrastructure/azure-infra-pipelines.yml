@@ -220,12 +220,18 @@ stages:
         tags: |
           $(tag)
           
-    - script: |
-        az webapp config container set \
-          --name $(WebsiteName) \
-          --resource-group $(resourceGroupName) \
-          --docker-custom-image-name $(registryName).azurecr.io/$(imageName):$(tag) \
-          --docker-registry-server-url https://$(registryName).azurecr.io
+    - task: AzureCLI@2
       displayName: 'Deploy Docker image using Azure CLI'
+      inputs:
+        azureSubscription: $(subscriptionName)
+        scriptType: 'bash'
+        scriptLocation: 'inlineScript'
+        inlineScript: |
+          az webapp config container set \
+            --name $(WebsiteName) \
+            --resource-group $(resourceGroupName) \
+            --docker-custom-image-name $(registryName).azurecr.io/$(imageName):$(tag) \
+            --docker-registry-server-url https://$(registryName).azurecr.io
+
 
 
