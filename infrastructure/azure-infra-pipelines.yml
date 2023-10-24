@@ -152,13 +152,14 @@ stages:
         dockerfile: '**/WebApp.Dockerfile'
         tags: |
           $(tag)
-    - task: AzureWebApp@1
+    - task: AzureRmWebAppDeployment@4
       displayName: Deploy Docker Image to Azure Web App
       inputs:
         azureSubscription: $(subscriptionName)
-        appName: $(WebsiteName)
-        appType: webAppContainer
-        customDockerImage: $(registryName).azurecr.io/$(imageName):$(tag)
-        registryUrl: $(registryName).azurecr.io
+        appType: 'webAppContainer'
+        WebAppName: $(WebsiteName)
+        DockerNamespace: $(registryName).azurecr.io
+        DockerRepository: $(imageName)
+        DockerImageTag: $(tag)
 
 
