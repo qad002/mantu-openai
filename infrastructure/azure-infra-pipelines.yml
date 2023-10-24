@@ -57,12 +57,6 @@ stages:
         deploy:
           steps:
           - checkout: self
-          - script: pwd
-            displayName: 'Print Working Directory'
-          - script: |
-              ls -al $(Build.SourcesDirectory)
-              ls -al $(Build.SourcesDirectory)/infrastructure
-            displayName: 'List Directory Contents'
           - task: AzureCLI@2
             displayName: Deploy ARM Template
             inputs:
@@ -126,8 +120,8 @@ stages:
                   --sku $(sku) \
                   --admin-enabled false
 
-- stage: BuildAndPushImage
-  displayName: Build and Push Docker Image
+- stage: BuildPushDeployImage
+  displayName: Build, Push and Deploy Docker Image
   dependsOn: 
     - DeployInfrastructure
   jobs:
@@ -151,4 +145,16 @@ stages:
         dockerfile: '**/WebApp.Dockerfile'
         tags: |
           $(tag)
+  - job: DeployImageJob
+    displayName: Deploy Image Job
+    steps:
+    - task: AzureWebApp@1
+      displayName: Deploy Docker Image to Azure Web App
+      inputs:
+        azureSubscription: $(subscriptionName)
+        appName: $(WebsiteName)
+        appType: webAppContainer
+        customDockerImage: $(registryName).azurecr.io/$(imageName):$(tag)
+        registryUrl: $(registryName).azurecr.io
+
 
