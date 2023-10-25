@@ -85,10 +85,6 @@ variables:
     value: 'True'
   - name: AZURE_OPENAI_ENDPOINT
     value: 'https://cog-mantuopenai-gpt4.openai.azure.com/'
-  - name: AZURE_OPENAI_EMBEDDING_ENDPOINT
-    value: ''
-  - name: AZURE_OPENAI_EMBEDDING_KEY
-    value: ''
   - name: AZURE_OPENAI_EMBEDDING_NAME
     value: 'ada002'
   - name: AZURE_COSMOSDB_ACCOUNT
@@ -157,8 +153,7 @@ stages:
                     AzureOpenAISystemMessage="$(AZURE_OPENAI_SYSTEM_MESSAGE)" \
                     AzureOpenAIApiVersion="$(AZURE_OPENAI_PREVIEW_API_VERSION)" \
                     AzureOpenAIStream=$(AZURE_OPENAI_STREAM) \
-                    AzureOpenAIEmbeddingEndpoint="$(AZURE_OPENAI_EMBEDDING_ENDPOINT)" \
-                    AzureOpenAIEmbeddingKey="$(AZURE_OPENAI_EMBEDDING_KEY)" \
+                    AzureOpenAIEmbeddingName="$(AZURE_OPENAI_EMBEDDING_NAME)" \
                     AzureCosmosDBAccount="$(AZURE_COSMOSDB_ACCOUNT)" \
                     AzureCosmosDBDatabase="$(AZURE_COSMOSDB_DATABASE)" \
                     AzureCosmosDBConversationsContainer="$(AZURE_COSMOSDB_CONVERSATIONS_CONTAINER)" \
