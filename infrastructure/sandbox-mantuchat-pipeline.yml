@@ -160,6 +160,7 @@ stages:
                     AzureCosmosDBAccount=$(AZURE_COSMOSDB_ACCOUNT) \
                     AzureCosmosDBDatabase=$(AZURE_COSMOSDB_DATABASE) \
                     AzureCosmosDBConversationsContainer=$(AZURE_COSMOSDB_CONVERSATIONS_CONTAINER) \
+                    ApplicationInsightsName=appinsights-$(WebsiteName) \
                     AzureCosmosDBAccountKey=$(AZURE_COSMOSDB_ACCOUNT_KEY)
           - task: AzureCLI@2
             displayName: Create Azure Container Registry
