@@ -154,11 +154,7 @@ stages:
                     AzureOpenAIApiVersion="$(AZURE_OPENAI_PREVIEW_API_VERSION)" \
                     AzureOpenAIStream=$(AZURE_OPENAI_STREAM) \
                     AzureOpenAIEmbeddingName="$(AZURE_OPENAI_EMBEDDING_NAME)" \
-                    AzureCosmosDBAccount="$(AZURE_COSMOSDB_ACCOUNT)" \
-                    AzureCosmosDBDatabase="$(AZURE_COSMOSDB_DATABASE)" \
-                    AzureCosmosDBConversationsContainer="$(AZURE_COSMOSDB_CONVERSATIONS_CONTAINER)" \
-                    ApplicationInsightsName="appi-$(WebsiteName)" \
-                    AzureCosmosDBAccountKey="$(AZURE_COSMOSDB_ACCOUNT_KEY)"
+                    ApplicationInsightsName="appi-$(WebsiteName)"
 
           - task: AzureCLI@2
             displayName: Create Azure Container Registry
