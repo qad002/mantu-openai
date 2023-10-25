@@ -126,25 +126,25 @@ stages:
                   --resource-group $(resourceGroupName) \
                   --template-file $(Build.SourcesDirectory)/infrastructure/deployment.json \
                   --parameters \
-                    HostingPlanName=$(HostingPlanName) \
-                    HostingPlanSku=$(HostingPlanSku) \
-                    WebsiteName=$(WebsiteName) \
-                    WebAppEnableChatHistory=$(WebAppEnableChatHistory)
-                    AzureSearchService=$(AZURE_SEARCH_SERVICE) \
-                    AzureSearchIndex=$(AZURE_SEARCH_INDEX) \
-                    AzureSearchKey=$(AZURE_SEARCH_KEY) \
+                    HostingPlanName="$(HostingPlanName)" \
+                    HostingPlanSku="$(HostingPlanSku)" \
+                    WebsiteName="$(WebsiteName)" \
+                    WebAppEnableChatHistory=$(WebAppEnableChatHistory) \
+                    AzureSearchService="$(AZURE_SEARCH_SERVICE)" \
+                    AzureSearchIndex="$(AZURE_SEARCH_INDEX)" \
+                    AzureSearchKey="$(AZURE_SEARCH_KEY)" \
                     AzureSearchUseSemanticSearch=$(AZURE_SEARCH_USE_SEMANTIC_SEARCH) \
-                    AzureSearchSemanticSearchConfig=$(AZURE_SEARCH_SEMANTIC_SEARCH_CONFIG) \
+                    AzureSearchSemanticSearchConfig="$(AZURE_SEARCH_SEMANTIC_SEARCH_CONFIG)" \
                     AzureSearchIndexIsPrechunked=$(AZURE_SEARCH_INDEX_IS_PRECHUNKED) \
                     AzureSearchTopK=$(AZURE_SEARCH_TOP_K) \
                     AzureSearchEnableInDomain=$(AZURE_SEARCH_ENABLE_IN_DOMAIN) \
-                    AzureSearchContentColumns=$(AZURE_SEARCH_CONTENT_COLUMNS) \
-                    AzureSearchFilenameColumn=$(AZURE_SEARCH_FILENAME_COLUMN) \
-                    AzureSearchTitleColumn=$(AZURE_SEARCH_TITLE_COLUMN) \
-                    AzureSearchUrlColumn=$(AZURE_SEARCH_URL_COLUMN) \
-                    AzureSearchVectorFields=$(AZURE_SEARCH_VECTOR_COLUMNS) \
-                    AzureSearchQueryType=$(AZURE_SEARCH_QUERY_TYPE) \
-                    AzureSearchPermittedGroupsField=$(AZURE_SEARCH_PERMITTED_GROUPS_COLUMN) \
+                    AzureSearchContentColumns="$(AZURE_SEARCH_CONTENT_COLUMNS)" \
+                    AzureSearchFilenameColumn="$(AZURE_SEARCH_FILENAME_COLUMN)" \
+                    AzureSearchTitleColumn="$(AZURE_SEARCH_TITLE_COLUMN)" \
+                    AzureSearchUrlColumn="$(AZURE_SEARCH_URL_COLUMN)" \
+                    AzureSearchVectorFields="$(AZURE_SEARCH_VECTOR_COLUMNS)" \
+                    AzureSearchQueryType="$(AZURE_SEARCH_QUERY_TYPE)" \
+                    AzureSearchPermittedGroupsField="$(AZURE_SEARCH_PERMITTED_GROUPS_COLUMN)" \
                     AzureSearchStrictness=$(AZURE_SEARCH_STRICTNESS) \
                     AzureOpenAIResource="$(AZURE_OPENAI_RESOURCE)" \
                     AzureOpenAIModel="$(AZURE_OPENAI_MODEL)" \
@@ -153,17 +153,18 @@ stages:
                     AzureOpenAITemperature=$(AZURE_OPENAI_TEMPERATURE) \
                     AzureOpenAITopP=$(AZURE_OPENAI_TOP_P) \
                     AzureOpenAIMaxTokens=$(AZURE_OPENAI_MAX_TOKENS) \
-                    AzureOpenAIStopSequence=$(AZURE_OPENAI_STOP_SEQUENCE) \
+                    AzureOpenAIStopSequence="$(AZURE_OPENAI_STOP_SEQUENCE)" \
                     AzureOpenAISystemMessage="$(AZURE_OPENAI_SYSTEM_MESSAGE)" \
-                    AzureOpenAIApiVersion=$(AZURE_OPENAI_PREVIEW_API_VERSION) \
+                    AzureOpenAIApiVersion="$(AZURE_OPENAI_PREVIEW_API_VERSION)" \
                     AzureOpenAIStream=$(AZURE_OPENAI_STREAM) \
-                    AzureOpenAIEmbeddingEndpoint=$(AZURE_OPENAI_EMBEDDING_ENDPOINT) \
-                    AzureOpenAIEmbeddingKey=$(AZURE_OPENAI_EMBEDDING_KEY) \
-                    AzureCosmosDBAccount=$(AZURE_COSMOSDB_ACCOUNT) \
-                    AzureCosmosDBDatabase=$(AZURE_COSMOSDB_DATABASE) \
-                    AzureCosmosDBConversationsContainer=$(AZURE_COSMOSDB_CONVERSATIONS_CONTAINER) \
-                    ApplicationInsightsName=appinsights-$(WebsiteName) \
-                    AzureCosmosDBAccountKey=$(AZURE_COSMOSDB_ACCOUNT_KEY)
+                    AzureOpenAIEmbeddingEndpoint="$(AZURE_OPENAI_EMBEDDING_ENDPOINT)" \
+                    AzureOpenAIEmbeddingKey="$(AZURE_OPENAI_EMBEDDING_KEY)" \
+                    AzureCosmosDBAccount="$(AZURE_COSMOSDB_ACCOUNT)" \
+                    AzureCosmosDBDatabase="$(AZURE_COSMOSDB_DATABASE)" \
+                    AzureCosmosDBConversationsContainer="$(AZURE_COSMOSDB_CONVERSATIONS_CONTAINER)" \
+                    ApplicationInsightsName="appi-$(WebsiteName)" \
+                    AzureCosmosDBAccountKey="$(AZURE_COSMOSDB_ACCOUNT_KEY)"
+
           - task: AzureCLI@2
             displayName: Create Azure Container Registry
             inputs:

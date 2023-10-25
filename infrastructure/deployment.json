@@ -39,7 +39,7 @@
         },
         "ApplicationInsightsName": {
             "type": "string",
-            "defaultValue": "[guid(resourceGroup().id)]",
+            "defaultValue": "[format('appi-{0}', parameters('WebsiteName'))]",
             "metadata": {
                 "description": "Name of Application Insights"
             }
