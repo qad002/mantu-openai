@@ -124,7 +124,7 @@ stages:
               scriptLocation: 'inlineScript'
               inlineScript: |
                 az deployment group create \
-                  --name ExampleDeployment \
+                  --name $(WebsiteName)Deployment \
                   --resource-group $(resourceGroupName) \
                   --template-file $(Build.SourcesDirectory)/infrastructure/deployment.json \
                   --parameters \
