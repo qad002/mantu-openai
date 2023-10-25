@@ -256,7 +256,8 @@
             "defaultValue": "DOCKER|fruoccopublic.azurecr.io/sample-app-aoai-chatgpt:latest",
             "metadata": {
                 "description": "Azure uses it in the Service Plan linuxFxVersion"
-            },
+            }
+        },
         "WebAppEnableChatHistory": {
             "type": "bool",
             "defaultValue": false,
