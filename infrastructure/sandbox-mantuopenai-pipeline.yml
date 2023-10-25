@@ -58,7 +58,7 @@ variables:
   - name: AZURE_SEARCH_VECTOR_COLUMNS
     value: ''
   - name: AZURE_SEARCH_QUERY_TYPE
-    value: ''
+    value: 'simple'
   - name: AZURE_SEARCH_PERMITTED_GROUPS_COLUMN
     value: ''
   - name: AZURE_SEARCH_STRICTNESS
