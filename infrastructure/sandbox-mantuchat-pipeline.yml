@@ -1,5 +1,5 @@
 trigger:
-- sandbox
+- none
 
 pool:
   vmImage: 'ubuntu-latest'
@@ -87,10 +87,8 @@ variables:
     value: 'True'
   - name: AZURE_OPENAI_ENDPOINT
     value: 'https://cog-mantuopenai-gpt4.openai.azure.com/'
-  - name: AZURE_OPENAI_EMBEDDING_ENDPOINT
-    value: ''
-  - name: AZURE_OPENAI_EMBEDDING_KEY
-    value: '830b2958aa604d3c91b2fa9749110ba2'
+  - name: AZURE_OPENAI_EMBEDDING_NAME
+    value: 'ada002'
   - name: AZURE_COSMOSDB_ACCOUNT
     value: 'db-cog-mantuopenai-front-sandbox'
   - name: AZURE_COSMOSDB_DATABASE
