@@ -87,6 +87,10 @@ variables:
     value: 'True'
   - name: AZURE_OPENAI_ENDPOINT
     value: 'https://cog-mantuopenai-gpt4.openai.azure.com/'
+  - name: AZURE_OPENAI_EMBEDDING_ENDPOINT
+    value: ''
+  - name: AZURE_OPENAI_EMBEDDING_KEY
+    value: ''
   - name: AZURE_OPENAI_EMBEDDING_NAME
     value: 'ada002'
   - name: AZURE_COSMOSDB_ACCOUNT
