@@ -67,8 +67,6 @@ variables:
     value: 'cog-mantuopenai-gpt4'
   - name: AZURE_OPENAI_MODEL
     value: 'gpt4'
-  - name: AZURE_OPENAI_KEY
-    value: '830b2958aa604d3c91b2fa9749110ba2'
   - name: AZURE_OPENAI_MODEL_NAME
     value: 'gpt-4'
   - name: AZURE_OPENAI_TEMPERATURE
