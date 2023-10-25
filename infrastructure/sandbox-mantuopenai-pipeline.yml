@@ -147,8 +147,8 @@ stages:
                     AzureSearchPermittedGroupsField=$(AZURE_SEARCH_PERMITTED_GROUPS_COLUMN) \
                     AzureSearchStrictness=$(AZURE_SEARCH_STRICTNESS) \
                     AzureOpenAIResource="$(AZURE_OPENAI_RESOURCE)" \
-                    AzureOpenAIModel="$(AZURE_OPENAI_MODEL)"" \
-                    AzureOpenAIKey="$(AZURE_OPENAI_KEY)"" \
+                    AzureOpenAIModel="$(AZURE_OPENAI_MODEL)" \
+                    AzureOpenAIKey="$(AZURE_OPENAI_KEY)" \
                     AzureOpenAIModelName="$(AZURE_OPENAI_MODEL_NAME)" \
                     AzureOpenAITemperature=$(AZURE_OPENAI_TEMPERATURE) \
                     AzureOpenAITopP=$(AZURE_OPENAI_TOP_P) \
