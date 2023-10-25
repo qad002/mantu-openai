@@ -18,7 +18,7 @@ variables:
   - name: WebAppImageName
     value: "DOCKER|chatbotsandbox.azurecr.io/chatguru-app:latest"
   - name: resourceGroupName
-    value: 'rg-Chatbot-Sandbox'
+    value: 'rg-ChatBot-Sandbox'
   - name: AcrSku
     value: 'Basic'
   - name: subscriptionName
