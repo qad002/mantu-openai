@@ -168,7 +168,7 @@ stages:
                   --resource-group $(resourceGroupName) \
                   --location $(location) \
                   --sku $(AcrSku) \
-                  --admin-enabled true
+                  --admin-enabled false
           - task: AzureCLI@2
             displayName: 'Grant Web App Access to ACR'
             inputs:
@@ -193,7 +193,7 @@ stages:
   - job: BuildPushDeployImageJob
     displayName: Build, Push and Deploy Image Job
     steps:
-    
+
     - task: Docker@2
       displayName: Build and Push Docker Image
       inputs:
