@@ -55,19 +55,29 @@ stages:
                   --parameters WebAppImageName="DOCKER|$(registryName).azurecr.io/$(imageName):$(tag)"
 
           - task: AzureCLI@2
-            displayName: Create Azure Container Registry
+            displayName: Create Azure Container Registry and Enable System Assigned Managed Identity
             inputs:
               azureSubscription: $(subscriptionName)
               scriptType: 'bash'
               scriptLocation: 'inlineScript'
               inlineScript: |
+                # Create Azure Container Registry
                 az acr create \
                   --name $(registryName) \
                   --resource-group $(resourceGroupName) \
                   --location $(location) \
                   --sku $(AcrSku) \
-                  --admin-enabled true \
-                  --assign-identity
+                  --admin-enabled true
+
+                # Get subscription ID from subscription name
+                SUBSCRIPTION_ID=$(az account list --query "[?name=='$(subscriptionName)'].id" -o tsv)
+
+                # Enable System Assigned Managed Identity
+                az resource invoke-action \
+                  --ids /subscriptions/$SUBSCRIPTION_ID/resourceGroups/$(resourceGroupName)/providers/Microsoft.ContainerRegistry/registries/$(registryName) \
+                  --action identityAssign \
+                  --request-body "{  \"identityType\": \"systemAssigned\" }"
+
           - task: AzureCLI@2
             displayName: 'Grant Web App Access to ACR'
             inputs:
