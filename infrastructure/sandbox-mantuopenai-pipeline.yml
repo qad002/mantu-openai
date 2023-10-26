@@ -69,14 +69,11 @@ stages:
                   --sku $(AcrSku) \
                   --admin-enabled true
 
-                # Get subscription ID from subscription name
-                SUBSCRIPTION_ID=$(az account list --query "[?name=='$(subscriptionName)'].id" -o tsv)
-
                 # Enable System Assigned Managed Identity
-                az resource invoke-action \
-                  --ids /subscriptions/$SUBSCRIPTION_ID/resourceGroups/$(resourceGroupName)/providers/Microsoft.ContainerRegistry/registries/$(registryName) \
-                  --action identityAssign \
-                  --request-body "{  \"identityType\": \"systemAssigned\" }"
+                az acr identity assign \
+                  --name $(registryName) \
+                  --resource-group $(resourceGroupName) \
+                  --identities [system]
 
           - task: AzureCLI@2
             displayName: 'Grant Web App Access to ACR'
