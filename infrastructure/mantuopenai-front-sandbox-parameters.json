@@ -76,12 +76,6 @@
       },
       "WebAppEnableChatHistory": {
           "value": "True"
-      },
-      "AZURE_OPENAI_EMBEDDING_NAME": {
-          "value": "ada002"
-      },
-      "AZURE_OPENAI_ENDPOINT": {
-          "value": "https://cog-mantuopenai-gpt4.openai.azure.com/"
       }
   }
 }
