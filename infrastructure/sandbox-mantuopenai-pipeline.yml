@@ -49,9 +49,9 @@ stages:
                   --name $(WebsiteName)Deployment \
                   --resource-group $(resourceGroupName) \
                   --template-file $(Build.SourcesDirectory)/infrastructure/deployment.json \
-                  --parameters @$(WebsiteName)-parameters.json
-                  --parameters WebsiteName="$(WebsiteName)"
-                  --parameters HostingPlanName="asp-$(WebsiteName)"
+                  --parameters @$(WebsiteName)-parameters.json \
+                  --parameters WebsiteName="$(WebsiteName)" \
+                  --parameters HostingPlanName="asp-$(WebsiteName)" \
                   --parameters WebAppImageName="DOCKER|$(registryName).azurecr.io/$(imageName):$(tag)"
 
           - task: AzureCLI@2
