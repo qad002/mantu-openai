@@ -15,7 +15,7 @@
           "value": ""  // You would need to specify the value
       },
       "AzureSearchUseSemanticSearch": {
-          "value": "False"
+          "value": false
       },
       "AzureSearchSemanticSearchConfig": {
           "value": "default"
