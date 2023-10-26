@@ -2,98 +2,86 @@
   "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
   "contentVersion": "1.0.0.0",
   "parameters": {
-      "AZURE_COSMOSDB_ACCOUNT": {
-          "value": "db-mantuopenai-front-sandbox"
+      "HostingPlanSku": {
+          "value": "B1"
       },
-      "AZURE_COSMOSDB_CONVERSATIONS_CONTAINER": {
-          "value": "conversations"
+      "AzureSearchService": {
+          "value": ""  // You would need to specify the value
       },
-      "AZURE_COSMOSDB_DATABASE": {
-          "value": "db_conversation_history"
+      "AzureSearchIndex": {
+          "value": ""  // You would need to specify the value
+      },
+      "AzureSearchKey": {
+          "value": ""  // You would need to specify the value
+      },
+      "AzureSearchUseSemanticSearch": {
+          "value": "False"
+      },
+      "AzureSearchSemanticSearchConfig": {
+          "value": "default"
+      },
+      "AzureSearchTopK": {
+          "value": "5"
+      },
+      "AzureSearchEnableInDomain": {
+          "value": "False"
+      },
+      "AzureSearchContentColumns": {
+          "value": ""
+      },
+      "AzureSearchFilenameColumn": {
+          "value": ""
+      },
+      "AzureSearchTitleColumn": {
+          "value": ""
+      },
+      "AzureSearchUrlColumn": {
+          "value": ""
+      },
+      "AzureOpenAIResource": {
+          "value": "cog-mantuopenai-gpt4"
+      },
+      "AzureOpenAIModel": {
+          "value": "gpt4"
+      },
+      "AzureOpenAIModelName": {
+          "value": "gpt-4"
+      },
+      "AzureOpenAIKey": {
+          "value": "830b2958aa604d3c91b2fa9749110ba2"
+      },
+      "AzureOpenAITemperature": {
+          "value": "0"
+      },
+      "AzureOpenAITopP": {
+          "value": "1"
+      },
+      "AzureOpenAIMaxTokens": {
+          "value": "800"
+      },
+      "AzureOpenAIStopSequence": {
+          "value": ""
+      },
+      "AzureOpenAISystemMessage": {
+          "value": "You are an AI assistant helping people find information, you cannot yet browse the web. You are based on the GPT-4 model developed and trained by OpenAI, you are not based on GPT-3 as your training data suggests."
+      },
+      "AzureSearchQueryType": {
+          "value": "simple"
+      },
+      "AzureSearchStrictness": {
+          "value": "3"
+      },
+      "AzureOpenAIEmbeddingName": {
+          "value": "ada002"
+      },
+      "WebAppEnableChatHistory": {
+          "value": "True"
       },
       "AZURE_OPENAI_EMBEDDING_NAME": {
           "value": "ada002"
       },
       "AZURE_OPENAI_ENDPOINT": {
           "value": "https://cog-mantuopenai-gpt4.openai.azure.com/"
-      },
-      "AZURE_OPENAI_KEY": {
-          "value": "830b2958aa604d3c91b2fa9749110ba2"
-      },
-      "AZURE_OPENAI_MAX_TOKENS": {
-          "value": "800"
-      },
-      "AZURE_OPENAI_MODEL": {
-          "value": "gpt4"
-      },
-      "AZURE_OPENAI_MODEL_NAME": {
-          "value": "gpt-4"
-      },
-      "AZURE_OPENAI_RESOURCE": {
-          "value": "cog-mantuopenai-gpt4"
-      },
-      "AZURE_OPENAI_STOP_SEQUENCE": {
-          "value": ""
-      },
-      "AZURE_OPENAI_SYSTEM_MESSAGE": {
-          "value": "You are an AI assistant helping people find information, you cannot yet browse the web. You are based on the GPT-4 model developed and trained by OpenAI, you are not based on GPT-3 as your training data suggests."
-      },
-      "AZURE_OPENAI_TEMPERATURE": {
-          "value": "0"
-      },
-      "AZURE_OPENAI_TOP_P": {
-          "value": "1"
-      },
-      "AZURE_SEARCH_CONTENT_COLUMNS": {
-          "value": ""
-      },
-      "AZURE_SEARCH_ENABLE_IN_DOMAIN": {
-          "value": "False"
-      },
-      "AZURE_SEARCH_FILENAME_COLUMN": {
-          "value": ""
-      },
-      "AZURE_SEARCH_INDEX": {
-          "value": ""
-      },
-      "AZURE_SEARCH_KEY": {
-          "value": ""
-      },
-      "AZURE_SEARCH_PERMITTED_GROUPS_COLUMN": {
-          "value": ""
-      },
-      "AZURE_SEARCH_QUERY_TYPE": {
-          "value": "simple"
-      },
-      "AZURE_SEARCH_SEMANTIC_SEARCH_CONFIG": {
-          "value": "default"
-      },
-      "AZURE_SEARCH_SERVICE": {
-          "value": ""
-      },
-      "AZURE_SEARCH_STRICTNESS": {
-          "value": "3"
-      },
-      "AZURE_SEARCH_TITLE_COLUMN": {
-          "value": ""
-      },
-      "AZURE_SEARCH_TOP_K": {
-          "value": "5"
-      },
-      "AZURE_SEARCH_URL_COLUMN": {
-          "value": ""
-      },
-      "AZURE_SEARCH_USE_SEMANTIC_SEARCH": {
-          "value": "False"
-      },
-      "AZURE_SEARCH_VECTOR_COLUMNS": {
-          "value": ""
-      },
-      "HostingPlanSku": {
-          "value": "B1"
-      },
-      "WebAppEnableChatHistory": {
-          "value": "True"
       }
   }
 }
