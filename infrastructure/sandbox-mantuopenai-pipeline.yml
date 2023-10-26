@@ -195,22 +195,6 @@ stages:
   - job: BuildPushDeployImageJob
     displayName: Build, Push and Deploy Image Job
     steps:
-    - task: AzureCLI@2
-      displayName: Assign AcrPush role to service principal
-      inputs:
-        azureSubscription: $(subscriptionName)
-        scriptType: bash
-        scriptLocation: inlineScript
-        inlineScript: |
-          # Get the Azure Container Registry Id
-          ACR_ID=$(az acr show --name $(registryName) --query id --output tsv)
-          
-          # Assign the AcrPush role to the service principal
-          az role assignment create \
-            --assignee $(serviceConnectionId) \
-            --scope $ACR_ID \
-            --role AcrPush
-
     - task: Docker@2
       displayName: Login to ACR
       inputs:
