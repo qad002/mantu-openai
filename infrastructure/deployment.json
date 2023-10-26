@@ -130,7 +130,7 @@
         },
         "AzureOpenAIResource": {
             "type": "string",
-            "defaultValue": "cog-mantuopenai-gpt4",
+            "defaultValue": "",
             "metadata": {
                 "description": "Name of Azure OpenAI Resource"
             }
@@ -151,7 +151,7 @@
         },
         "AzureOpenAIKey": {
             "type": "securestring",
-            "defaultValue": "830b2958aa604d3c91b2fa9749110ba2",
+            "defaultValue": "",
             "metadata": {
                 "description": "Azure OpenAI Key"
             }

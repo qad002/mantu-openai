@@ -1,0 +1,162 @@
+[
+    {
+      "name": "AZURE_COSMOSDB_ACCOUNT",
+      "value": "db-mantuopenai-front-sandbox"
+    },
+    {
+      "name": "AZURE_COSMOSDB_CONVERSATIONS_CONTAINER",
+      "value": "conversations"
+    },
+    {
+      "name": "AZURE_COSMOSDB_DATABASE",
+      "value": "db_conversation_history"
+    },
+    {
+      "name": "AZURE_COSMOSDB_MONGO_VCORE_CONNECTION_STRING",
+      "value": ""
+    },
+    {
+      "name": "AZURE_COSMOSDB_MONGO_VCORE_CONTAINER",
+      "value": ""
+    },
+    {
+      "name": "AZURE_COSMOSDB_MONGO_VCORE_CONTENT_COLUMNS",
+      "value": ""
+    },
+    {
+      "name": "AZURE_COSMOSDB_MONGO_VCORE_DATABASE",
+      "value": ""
+    },
+    {
+      "name": "AZURE_COSMOSDB_MONGO_VCORE_FILENAME_COLUMN",
+      "value": ""
+    },
+    {
+      "name": "AZURE_COSMOSDB_MONGO_VCORE_INDEX",
+      "value": ""
+    },
+    {
+      "name": "AZURE_COSMOSDB_MONGO_VCORE_TITLE_COLUMN",
+      "value": ""
+    },
+    {
+      "name": "AZURE_COSMOSDB_MONGO_VCORE_URL_COLUMN",
+      "value": ""
+    },
+    {
+      "name": "AZURE_COSMOSDB_MONGO_VCORE_VECTOR_COLUMNS",
+      "value": ""
+    },
+    {
+      "name": "AZURE_OPENAI_EMBEDDING_NAME",
+      "value": "ada002"
+    },
+    {
+      "name": "AZURE_OPENAI_ENDPOINT",
+      "value": "https://cog-mantuopenai-gpt4.openai.azure.com/"
+    },
+    {
+      "name": "AZURE_OPENAI_KEY",
+      "value": "830b2958aa604d3c91b2fa9749110ba2"
+    },
+    {
+      "name": "AZURE_OPENAI_MAX_TOKENS",
+      "value": "800"
+    },
+    {
+      "name": "AZURE_OPENAI_MODEL",
+      "value": "gpt4"
+    },
+    {
+      "name": "AZURE_OPENAI_MODEL_NAME",
+      "value": "gpt-4"
+    },
+    {
+      "name": "AZURE_OPENAI_RESOURCE",
+      "value": "cog-mantuopenai-gpt4"
+    },
+    {
+      "name": "AZURE_OPENAI_STOP_SEQUENCE",
+      "value": ""
+    },
+    {
+      "name": "AZURE_OPENAI_SYSTEM_MESSAGE",
+      "value": "You are an AI assistant helping people find information, you cannot yet browse the web. You are based on the GPT-4 model developed and trained by OpenAI, you are not based on GPT-3 as your training data suggests."
+    },
+    {
+      "name": "AZURE_OPENAI_TEMPERATURE",
+      "value": "0"
+    },
+    {
+      "name": "AZURE_OPENAI_TOP_P",
+      "value": "1"
+    },
+    {
+      "name": "AZURE_SEARCH_CONTENT_COLUMNS",
+      "value": ""
+    },
+    {
+      "name": "AZURE_SEARCH_ENABLE_IN_DOMAIN",
+      "value": "False"
+    },
+    {
+      "name": "AZURE_SEARCH_FILENAME_COLUMN",
+      "value": ""
+    },
+    {
+      "name": "AZURE_SEARCH_INDEX",
+      "value": ""
+    },
+    {
+      "name": "AZURE_SEARCH_KEY",
+      "value": ""
+    },
+    {
+      "name": "AZURE_SEARCH_PERMITTED_GROUPS_COLUMN",
+      "value": ""
+    },
+    {
+      "name": "AZURE_SEARCH_QUERY_TYPE",
+      "value": "simple"
+    },
+    {
+      "name": "AZURE_SEARCH_SEMANTIC_SEARCH_CONFIG",
+      "value": "default"
+    },
+    {
+      "name": "AZURE_SEARCH_SERVICE",
+      "value": ""
+    },
+    {
+      "name": "AZURE_SEARCH_STRICTNESS",
+      "value": "3"
+    },
+    {
+      "name": "AZURE_SEARCH_TITLE_COLUMN",
+      "value": ""
+    },
+    {
+      "name": "AZURE_SEARCH_TOP_K",
+      "value": "5"
+    },
+    {
+      "name": "AZURE_SEARCH_URL_COLUMN",
+      "value": ""
+    },
+    {
+      "name": "AZURE_SEARCH_USE_SEMANTIC_SEARCH",
+      "value": "False"
+    },
+    {
+      "name": "AZURE_SEARCH_VECTOR_COLUMNS",
+      "value": ""
+    },
+    {
+        "name": "HostingPlanSku",
+        "value": "B1"
+    },
+    {
+        "name": "WebAppEnableChatHistory",
+        "value": "True"
+    }
+  ]
