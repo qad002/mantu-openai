@@ -49,7 +49,7 @@ stages:
                   --name $(WebsiteName)Deployment \
                   --resource-group $(resourceGroupName) \
                   --template-file $(Build.SourcesDirectory)/infrastructure/deployment.json \
-                  --parameters $(Build.SourcesDirectory)/infrastructure/@$(WebsiteName)-parameters.json \
+                  --parameters @$(Build.SourcesDirectory)/infrastructure/$(WebsiteName)-parameters.json \
                   --parameters WebsiteName="$(WebsiteName)" \
                   --parameters HostingPlanName="asp-$(WebsiteName)" \
                   --parameters WebAppImageName="DOCKER|$(registryName).azurecr.io/$(imageName):$(tag)"
