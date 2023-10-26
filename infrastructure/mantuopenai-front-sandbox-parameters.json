@@ -11,33 +11,6 @@
       "AZURE_COSMOSDB_DATABASE": {
           "value": "db_conversation_history"
       },
-      "AZURE_COSMOSDB_MONGO_VCORE_CONNECTION_STRING": {
-          "value": ""
-      },
-      "AZURE_COSMOSDB_MONGO_VCORE_CONTAINER": {
-          "value": ""
-      },
-      "AZURE_COSMOSDB_MONGO_VCORE_CONTENT_COLUMNS": {
-          "value": ""
-      },
-      "AZURE_COSMOSDB_MONGO_VCORE_DATABASE": {
-          "value": ""
-      },
-      "AZURE_COSMOSDB_MONGO_VCORE_FILENAME_COLUMN": {
-          "value": ""
-      },
-      "AZURE_COSMOSDB_MONGO_VCORE_INDEX": {
-          "value": ""
-      },
-      "AZURE_COSMOSDB_MONGO_VCORE_TITLE_COLUMN": {
-          "value": ""
-      },
-      "AZURE_COSMOSDB_MONGO_VCORE_URL_COLUMN": {
-          "value": ""
-      },
-      "AZURE_COSMOSDB_MONGO_VCORE_VECTOR_COLUMNS": {
-          "value": ""
-      },
       "AZURE_OPENAI_EMBEDDING_NAME": {
           "value": "ada002"
       },
