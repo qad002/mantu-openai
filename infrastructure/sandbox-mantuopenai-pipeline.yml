@@ -23,8 +23,12 @@ variables:
     value: 'Mantu Group - NoProd'
   - name: WebsiteName
     value: 'mantuopenai-front-sandbox'
-  - group: rg-ChatBot-Sandbox
+  - name: servicePrincipalId
+    value: '5f2b1088-d3b0-4a92-bbc0-0e7741d19df2'
+  - name: tenantId
+    value: 'ce57ebe3-a63d-4708-b5cf-c274b48bd26c'
 
+  - group: rg-ChatBot-Sandbox
 
 stages:
 - stage: DeployInfrastructure
@@ -53,6 +57,7 @@ stages:
                   --parameters WebsiteName="$(WebsiteName)" \
                   --parameters HostingPlanName="asp-$(WebsiteName)" \
                   --parameters WebAppImageName="DOCKER|$(registryName).azurecr.io/$(imageName):$(tag)"
+                  --parameters AzureOpenAIKey="$(AZURE_OPENAI_KEY)"
 
           - task: AzureCLI@2
             displayName: Create Azure Container Registry and Enable System Assigned Managed Identity
@@ -99,26 +104,16 @@ stages:
   - job: BuildPushDeployImageJob
     displayName: Build, Push and Deploy Image Job
     steps:
-    - task: Docker@2
-      displayName: Login to ACR
-      inputs:
-        command: login
-        containerRegistry: $(ACRServiceConnection)
-        azureSubscription: $(subscriptionName)
-        username: $(registryName)
-        password: $(acrPassword)
-
-    - task: Docker@2
+    - task: Bash@3
       displayName: Build and Push Docker Image
       inputs:
-        command: buildAndPush
-        repository: $(imageName)
-        containerRegistry: $(ACRServiceConnection)
-        azureSubscription: $(subscriptionName)
-        dockerfile: '**/WebApp.Dockerfile'
-        tags: |
-          $(tag)
-          
+        targetType: 'inline'
+        script: |
+          az login --service-principal --username $(servicePrincipalId) --password $(servicePrincipalKey) --tenant $(tenantId)
+          az acr login --name $(registryName)
+          docker build -t $(registryName).azurecr.io/$(imageName):$(tag) -f $(Build.SourcesDirectory)/WebApp.Dockerfile .
+          docker push $(registryName).azurecr.io/$(imageName):$(tag)
+
     - task: AzureCLI@2
       displayName: 'Deploy Docker image using Azure CLI'
       inputs:
