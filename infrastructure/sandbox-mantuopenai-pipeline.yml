@@ -56,7 +56,7 @@ stages:
                   --parameters @$(Build.SourcesDirectory)/infrastructure/$(WebsiteName)-parameters.json \
                   --parameters WebsiteName="$(WebsiteName)" \
                   --parameters HostingPlanName="asp-$(WebsiteName)" \
-                  --parameters WebAppImageName="DOCKER|$(registryName).azurecr.io/$(imageName):$(tag)"
+                  --parameters WebAppImageName="DOCKER|$(registryName).azurecr.io/$(imageName):$(tag)" \
                   --parameters AzureOpenAIKey="$(AZURE_OPENAI_KEY)"
 
           - task: AzureCLI@2
