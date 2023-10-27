@@ -72,13 +72,7 @@ stages:
                   --resource-group $(resourceGroupName) \
                   --location $(location) \
                   --sku $(AcrSku) \
-                  --admin-enabled true
-
-                # Enable System Assigned Managed Identity
-                az acr identity assign \
-                  --name $(registryName) \
-                  --resource-group $(resourceGroupName) \
-                  --identities [system]
+                  --admin-enabled false
 
           - task: AzureCLI@2
             displayName: 'Grant Web App Access to ACR'
