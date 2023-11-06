@@ -1,0 +1,311 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "HostingPlanName": {
+            "type": "string",
+            "defaultValue": "[guid(resourceGroup().id)]",
+            "metadata": {
+                "description": "Name of App Service plan"
+            }
+        },
+        "HostingPlanSku": {
+            "type": "string",
+            "defaultValue": "B3",
+            "allowedValues": [
+                "F1",
+                "D1",
+                "B1",
+                "B2",
+                "B3",
+                "S1",
+                "S2",
+                "S3",
+                "P1",
+                "P2",
+                "P3",
+                "P4"
+            ],
+            "metadata": {
+                "description": "The pricing tier for the App Service plan"
+            }
+        },
+        "WebsiteName": {
+            "type": "string",
+            "defaultValue": "[guid(resourceGroup().id)]",
+            "metadata": {
+                "description": "Name of Web App"
+            }
+        },
+        "ApplicationInsightsName": {
+            "type": "string",
+            "defaultValue": "[format('appi-{0}', parameters('WebsiteName'))]",
+            "metadata": {
+                "description": "Name of Application Insights"
+            }
+        },
+        "AzureSearchService": {
+            "type": "string",
+            "defaultValue": "",
+            "metadata": {
+                "description": "Name of Azure Search Service"
+            }
+        },
+        "AzureSearchIndex": {
+            "type": "string",
+            "defaultValue": "",
+            "metadata": {
+                "description": "Name of Azure Search Index"
+            }
+        },
+        "AzureSearchKey": {
+            "type": "securestring",
+            "defaultValue": "",
+            "metadata": {
+                "description": "Azure Search Admin Key"
+            }
+        },
+        "AzureSearchUseSemanticSearch": {
+            "type": "bool",
+            "defaultValue": false,
+            "metadata": {
+                "description": "Use semantic search"
+            }
+        },
+        "AzureSearchSemanticSearchConfig": {
+            "type": "string",
+            "defaultValue": "default",
+            "metadata": {
+                "description": "Semantic search config"
+            }
+        },
+        "AzureSearchIndexIsPrechunked": {
+            "type": "bool",
+            "defaultValue": false,
+            "metadata": {
+                "description": "Is the index prechunked"
+            }
+        },
+        "AzureSearchTopK": {
+            "type": "int",
+            "defaultValue": 5,
+            "metadata": {
+                "description": "Top K results"
+            }
+        },
+        "AzureSearchEnableInDomain": {
+            "type": "bool",
+            "defaultValue": false,
+            "metadata": {
+                "description": "Enable in domain"
+            }
+        },
+        "AzureSearchContentColumns": {
+            "type": "string",
+            "defaultValue": "content",
+            "metadata": {
+                "description": "Content columns"
+            }
+        },
+        "AzureSearchFilenameColumn": {
+            "type": "string",
+            "defaultValue": "filename",
+            "metadata": {
+                "description": "Filename column"
+            }
+        },
+        "AzureSearchTitleColumn": {
+            "type": "string",
+            "defaultValue": "title",
+            "metadata": {
+                "description": "Title column"
+            }
+        },
+        "AzureSearchUrlColumn": {
+            "type": "string",
+            "defaultValue": "url",
+            "metadata": {
+                "description": "Url column"
+            }
+        },
+        "AzureOpenAIResource": {
+            "type": "string",
+            "defaultValue": "",
+            "metadata": {
+                "description": "Name of Azure OpenAI Resource"
+            }
+        },
+        "AzureOpenAIModel": {
+            "type": "string",
+            "defaultValue": "gpt4",
+            "metadata": {
+                "description": "Azure OpenAI Model Deployment Name"
+            }
+        },
+        "AzureOpenAIModelName": {
+            "type": "string",
+            "defaultValue": "gpt-4",
+            "metadata": {
+                "description": "Azure OpenAI Model Name"
+            }
+        },
+        "AzureOpenAIKey": {
+            "type": "securestring",
+            "defaultValue": "",
+            "metadata": {
+                "description": "Azure OpenAI Key"
+            }
+        },
+        "AzureOpenAITemperature": {
+            "type": "int",
+            "defaultValue": 0,
+            "metadata": {
+                "description": "Azure OpenAI Temperature"
+            }
+        },
+        "AzureOpenAITopP": {
+            "type": "int",
+            "defaultValue": 1,
+            "metadata": {
+                "description": "Azure OpenAI Top P"
+            }
+        },
+        "AzureOpenAIMaxTokens": {
+            "type": "int",
+            "defaultValue": 1000,
+            "metadata": {
+                "description": "Azure OpenAI Max Tokens"
+            }
+        },
+        "AzureOpenAIStopSequence": {
+            "type": "string",
+            "defaultValue": "\n",
+            "metadata": {
+                "description": "Azure OpenAI Stop Sequence"
+            }
+        },
+        "AzureOpenAISystemMessage": {
+            "type": "string",
+            "defaultValue": "You are an AI assistant that helps people find information.",
+            "metadata": {
+                "description": "Azure OpenAI System Message"
+            }
+        },
+        "AzureOpenAIApiVersion": {
+            "type": "string",
+            "defaultValue": "2023-06-01-preview",
+            "metadata": {
+                "description": "Azure OpenAI Api Version"
+            }
+        },
+        "AzureOpenAIStream": {
+            "type": "bool",
+            "defaultValue": true,
+            "metadata": {
+                "description": "Whether or not to stream responses from Azure OpenAI"
+            }
+        },
+        "AzureSearchQueryType": {
+            "type": "string",
+            "defaultValue": "simple",
+            "allowedValues": [
+                "simple",
+                "semantic",
+                "vector",
+                "vectorSimpleHybrid",
+                "vectorSemanticHybrid"
+            ],
+            "metadata": {
+                "description": "Azure Search Query Type"
+            }
+        },
+        "AzureSearchVectorFields": {
+            "type": "string",
+            "defaultValue": "",
+            "metadata": {
+                "description": "Azure Search Vector Fields"
+            }
+        },
+        "AzureSearchPermittedGroupsField": {
+            "type": "string",
+            "defaultValue": "",
+            "metadata": {
+                "description": "Azure Search Permitted Groups Field"
+            }
+        },
+        "AzureSearchStrictness": {
+            "type": "int",
+            "defaultValue": 3,
+            "allowedValues": [
+                1,
+                2,
+                3,
+                4,
+                5
+            ],
+            "metadata": {
+                "description": "Azure Search Strictness"
+            }
+        },
+        "AzureOpenAIEmbeddingName": {
+            "type": "string",
+            "defaultValue": "",
+            "metadata": {
+                "description": "Azure OpenAI Embedding Deployment Name"
+            }
+        },
+        "WebAppEnableChatHistory": {
+            "type": "bool",
+            "defaultValue": false,
+            "metadata": {
+                "description": "Enable chat history by deploying a Cosmos DB instance"
+            }
+        },
+        "CosmosDbAccountName": {
+            "type": "string",
+            "defaultValue": "[format('db-{0}', parameters('ProjectName'))]",
+            "metadata": {
+                "description": "CosmosDB account name"
+            }
+        }
+    },
+    "resources": [
+        {
+            "apiVersion": "2020-06-01",
+            "name": "[parameters('HostingPlanName')]",
+            "type": "Microsoft.Web/serverfarms",
+            "location": "[resourceGroup().location]",
+            "sku": {
+                "name": "[parameters('HostingPlanSku')]"
+            },
+            "properties": {
+                "name": "[parameters('HostingPlanName')]",
+                "reserved": true
+            },
+            "kind": "linux"
+        },
+        {
+            "condition": "[parameters('WebAppEnableChatHistory')]",
+            "type": "Microsoft.DocumentDB/databaseAccounts",
+            "apiVersion": "2023-04-15",
+            "name": "[parameters('CosmosDbAccountName')]",
+            "location": "[resourceGroup().location]",
+            "kind": "GlobalDocumentDB",
+            "properties": {
+                "consistencyPolicy": {
+                    "defaultConsistencyLevel": "Session"
+                },
+                "locations": [
+                    {
+                        "locationName": "[resourceGroup().location]",
+                        "failoverPriority": 0,
+                        "isZoneRedundant": false
+                    }
+                ],
+                "databaseAccountOfferType": "Standard",
+                "enableAutomaticFailover": false,
+                "enableMultipleWriteLocations": false
+            }
+        }
+    ]
+}

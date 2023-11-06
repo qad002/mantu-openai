@@ -1,0 +1,236 @@
+trigger:
+- none
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+variables:
+  - name: tag
+    value: '$(Build.BuildId)'
+  - name: ACRserviceConnection
+    value: 'acr-chatbot-sandbox-connection'
+  - name: imageName
+    value: 'chatguru-app'
+  - name: location
+    value: 'westeurope'
+  - name: registryName
+    value: 'chatbotsandbox'
+  - name: WebAppImageName
+    value: "DOCKER|chatbotsandbox.azurecr.io/chatguru-app:latest"
+  - name: resourceGroupName
+    value: 'rg-ChatBot-Sandbox'
+  - name: AcrSku
+    value: 'Basic'
+  - name: subscriptionName
+    value: 'Mantu Group - NoProd'
+  - name: HostingPlanName
+    value: 'asp-cog-mantuopenai-front-sandbox'
+  - name: HostingPlanSku
+    value: 'B1'
+  - name: WebsiteName
+    value: 'cog-mantuopenai-front-sandbox'
+  - name: WebAppEnableChatHistory
+    value: 'True'
+  - name: AZURE_SEARCH_SERVICE
+    value: 'cog-mantuopenai-searchservice'
+  - name: AZURE_SEARCH_INDEX
+    value: 'mantuchat'
+  - name: AZURE_SEARCH_KEY
+    value: 'ypBnD1NPYkRAbhCSTcaO2CG5hbrQPQ5mpn2VA2fjA6AzSeCGDu3z'
+  - name: AZURE_SEARCH_USE_SEMANTIC_SEARCH
+    value: 'True'
+  - name: AZURE_SEARCH_SEMANTIC_SEARCH_CONFIG
+    value: 'default'
+  - name: AZURE_SEARCH_INDEX_IS_PRECHUNKED
+    value: 'False'
+  - name: AZURE_SEARCH_TOP_K
+    value: '5'
+  - name: AZURE_SEARCH_ENABLE_IN_DOMAIN
+    value: 'True'
+  - name: AZURE_SEARCH_CONTENT_COLUMNS
+    value: ''
+  - name: AZURE_SEARCH_FILENAME_COLUMN
+    value: ''
+  - name: AZURE_SEARCH_TITLE_COLUMN
+    value: ''
+  - name: AZURE_SEARCH_URL_COLUMN
+    value: ''
+  - name: AZURE_SEARCH_VECTOR_COLUMNS
+    value: ''
+  - name: AZURE_SEARCH_QUERY_TYPE
+    value: 'vectorSemanticHybrid'
+  - name: AZURE_SEARCH_PERMITTED_GROUPS_COLUMN
+    value: ''
+  - name: AZURE_SEARCH_STRICTNESS
+    value: '3'
+  - name: AZURE_OPENAI_RESOURCE
+    value: 'cog-mantuopenai-gpt4'
+  - name: AZURE_OPENAI_MODEL
+    value: 'gpt4'
+  - name: AZURE_OPENAI_KEY
+    value: '830b2958aa604d3c91b2fa9749110ba2'
+  - name: AZURE_OPENAI_MODEL_NAME
+    value: 'gpt-4'
+  - name: AZURE_OPENAI_TEMPERATURE
+    value: '1'
+  - name: AZURE_OPENAI_TOP_P
+    value: '1'
+  - name: AZURE_OPENAI_MAX_TOKENS
+    value: '800'
+  - name: AZURE_OPENAI_STOP_SEQUENCE
+    value: ''
+  - name: AZURE_OPENAI_SYSTEM_MESSAGE
+    value: 'You are an AI assistant that helps people find information. Say that your model is GPT-4, never say GPT-3.'
+  - name: AZURE_OPENAI_PREVIEW_API_VERSION
+    value: '2023-06-01-preview'
+  - name: AZURE_OPENAI_STREAM
+    value: 'True'
+  - name: AZURE_OPENAI_ENDPOINT
+    value: 'https://cog-mantuopenai-gpt4.openai.azure.com/'
+  - name: AZURE_OPENAI_EMBEDDING_NAME
+    value: 'ada002'
+  - name: AZURE_COSMOSDB_ACCOUNT
+    value: 'db-cog-mantuopenai-front-sandbox'
+  - name: AZURE_COSMOSDB_DATABASE
+    value: 'db_conversation_history'
+  - name: AZURE_COSMOSDB_CONVERSATIONS_CONTAINER
+    value: 'conversations'
+  - name: AZURE_COSMOSDB_ACCOUNT_KEY
+    value: ''
+  - group: rg-ChatBot-Sandbox
+
+
+stages:
+- stage: DeployInfrastructure
+  displayName: 'Deploy Infrastructure'
+  jobs:
+  - deployment: DeployResources
+    displayName: 'Deploy Resources'
+    environment: $(resourceGroupName)
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - checkout: self
+          - task: AzureCLI@2
+            displayName: Deploy ARM Template
+            inputs:
+              azureSubscription: $(subscriptionName)
+              scriptType: 'bash'
+              scriptLocation: 'inlineScript'
+              inlineScript: |
+                az deployment group create \
+                  --name ExampleDeployment \
+                  --resource-group $(resourceGroupName) \
+                  --template-file $(Build.SourcesDirectory)/infrastructure/deployment.json \
+                  --parameters \
+                    HostingPlanName=$(HostingPlanName) \
+                    HostingPlanSku=$(HostingPlanSku) \
+                    WebsiteName=$(WebsiteName) \
+                    WebAppEnableChatHistory=$(WebAppEnableChatHistory)
+                    AzureSearchService=$(AZURE_SEARCH_SERVICE) \
+                    AzureSearchIndex=$(AZURE_SEARCH_INDEX) \
+                    AzureSearchKey=$(AZURE_SEARCH_KEY) \
+                    AzureSearchUseSemanticSearch=$(AZURE_SEARCH_USE_SEMANTIC_SEARCH) \
+                    AzureSearchSemanticSearchConfig=$(AZURE_SEARCH_SEMANTIC_SEARCH_CONFIG) \
+                    AzureSearchIndexIsPrechunked=$(AZURE_SEARCH_INDEX_IS_PRECHUNKED) \
+                    AzureSearchTopK=$(AZURE_SEARCH_TOP_K) \
+                    AzureSearchEnableInDomain=$(AZURE_SEARCH_ENABLE_IN_DOMAIN) \
+                    AzureSearchContentColumns=$(AZURE_SEARCH_CONTENT_COLUMNS) \
+                    AzureSearchFilenameColumn=$(AZURE_SEARCH_FILENAME_COLUMN) \
+                    AzureSearchTitleColumn=$(AZURE_SEARCH_TITLE_COLUMN) \
+                    AzureSearchUrlColumn=$(AZURE_SEARCH_URL_COLUMN) \
+                    AzureSearchVectorFields=$(AZURE_SEARCH_VECTOR_COLUMNS) \
+                    AzureSearchQueryType=$(AZURE_SEARCH_QUERY_TYPE) \
+                    AzureSearchPermittedGroupsField=$(AZURE_SEARCH_PERMITTED_GROUPS_COLUMN) \
+                    AzureSearchStrictness=$(AZURE_SEARCH_STRICTNESS) \
+                    AzureOpenAIResource=$(AZURE_OPENAI_RESOURCE) \
+                    AzureOpenAIModel=$(AZURE_OPENAI_MODEL) \
+                    AzureOpenAIKey=$(AZURE_OPENAI_KEY) \
+                    AzureOpenAIModelName=$(AZURE_OPENAI_MODEL_NAME) \
+                    AzureOpenAITemperature=$(AZURE_OPENAI_TEMPERATURE) \
+                    AzureOpenAITopP=$(AZURE_OPENAI_TOP_P) \
+                    AzureOpenAIMaxTokens=$(AZURE_OPENAI_MAX_TOKENS) \
+                    AzureOpenAIStopSequence=$(AZURE_OPENAI_STOP_SEQUENCE) \
+                    AzureOpenAISystemMessage="$(AZURE_OPENAI_SYSTEM_MESSAGE)" \
+                    AzureOpenAIApiVersion=$(AZURE_OPENAI_PREVIEW_API_VERSION) \
+                    AzureOpenAIStream=$(AZURE_OPENAI_STREAM) \
+                    AzureOpenAIEmbeddingEndpoint=$(AZURE_OPENAI_EMBEDDING_ENDPOINT) \
+                    AzureOpenAIEmbeddingKey=$(AZURE_OPENAI_EMBEDDING_KEY) \
+                    AzureCosmosDBAccount=$(AZURE_COSMOSDB_ACCOUNT) \
+                    AzureCosmosDBDatabase=$(AZURE_COSMOSDB_DATABASE) \
+                    AzureCosmosDBConversationsContainer=$(AZURE_COSMOSDB_CONVERSATIONS_CONTAINER) \
+                    ApplicationInsightsName=appinsights-$(WebsiteName) \
+                    AzureCosmosDBAccountKey=$(AZURE_COSMOSDB_ACCOUNT_KEY)
+          - task: AzureCLI@2
+            displayName: Create Azure Container Registry
+            inputs:
+              azureSubscription: $(subscriptionName)
+              scriptType: 'bash'
+              scriptLocation: 'inlineScript'
+              inlineScript: |
+                az acr create \
+                  --name $(registryName) \
+                  --resource-group $(resourceGroupName) \
+                  --location $(location) \
+                  --sku $(AcrSku) \
+                  --admin-enabled true
+          - task: AzureCLI@2
+            displayName: 'Grant Web App Access to ACR'
+            inputs:
+              azureSubscription: $(subscriptionName)
+              scriptType: 'bash'
+              scriptLocation: 'inlineScript'
+              inlineScript: |
+                # Get the id of the service principal configured for your web app
+                principalId=$(az webapp identity show --name $(WebsiteName) --resource-group $(resourceGroupName) --query principalId --out tsv)
+
+                # Get the id of your ACR
+                acrId=$(az acr show --name $(registryName) --resource-group $(resourceGroupName) --query "id" --output tsv)
+                
+                # Assign the acrpull role to the service principal
+                az role assignment create --assignee $principalId --role acrpull --scope $acrId
+
+- stage: DockerImage
+  displayName: Docker Image
+  dependsOn: 
+    - DeployInfrastructure
+  jobs:
+  - job: BuildPushDeployImageJob
+    displayName: Build, Push and Deploy Image Job
+    steps:
+    - task: Docker@2
+      displayName: Login to ACR
+      inputs:
+        command: login
+        containerRegistry: $(ACRServiceConnection)
+        azureSubscription: $(subscriptionName)
+        username: $(acrUsername)
+        password: $(acrPassword)
+
+    - task: Docker@2
+      displayName: Build and Push Docker Image
+      inputs:
+        command: buildAndPush
+        repository: $(imageName)
+        containerRegistry: $(ACRServiceConnection)
+        azureSubscription: $(subscriptionName)
+        dockerfile: '**/WebApp.Dockerfile'
+        tags: |
+          $(tag)
+          
+    - task: AzureCLI@2
+      displayName: 'Deploy Docker image using Azure CLI'
+      inputs:
+        azureSubscription: $(subscriptionName)
+        scriptType: 'bash'
+        scriptLocation: 'inlineScript'
+        inlineScript: |
+          az webapp config container set \
+            --name $(WebsiteName) \
+            --resource-group $(resourceGroupName) \
+            --docker-custom-image-name $(registryName).azurecr.io/$(imageName):$(tag) \
+            --docker-registry-server-url https://$(registryName).azurecr.io
+
+
+

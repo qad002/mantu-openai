@@ -1,0 +1,125 @@
+trigger:
+- none
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+variables:
+  - name: tag
+    value: '$(Build.BuildId)'
+  - name: ACRserviceConnection
+    value: 'acr-chatbot-sandbox-connection-v2'
+  - name: imageName
+    value: 'chatguru-app'
+  - name: location
+    value: 'westeurope'
+  - name: registryName
+    value: 'chatbotsandbox'
+  - name: resourceGroupName
+    value: 'rg-Chatbot-Sandbox'
+  - name: AcrSku
+    value: 'Basic'
+  - name: subscriptionName
+    value: 'Mantu Group - NoProd'
+  - name: WebsiteName
+    value: 'mantuopenai-front-sandbox'
+  - name: servicePrincipalId
+    value: '5f2b1088-d3b0-4a92-bbc0-0e7741d19df2'
+  - name: tenantId
+    value: 'ce57ebe3-a63d-4708-b5cf-c274b48bd26c'
+
+  - group: rg-ChatBot-Sandbox
+
+stages:
+- stage: DeployInfrastructure
+  displayName: 'Deploy Infrastructure'
+  jobs:
+  - deployment: DeployResources
+    displayName: 'Deploy Resources'
+    environment: $(resourceGroupName)
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - checkout: self
+          - task: AzureCLI@2
+            displayName: Deploy ARM Template
+            inputs:
+              azureSubscription: $(subscriptionName)
+              scriptType: 'bash'
+              scriptLocation: 'inlineScript'
+              inlineScript: |
+                az deployment group create \
+                  --name $(WebsiteName)Deployment \
+                  --resource-group $(resourceGroupName) \
+                  --template-file $(Build.SourcesDirectory)/infrastructure/deployment.json \
+                  --parameters @$(Build.SourcesDirectory)/infrastructure/$(WebsiteName)-parameters.json \
+                  --parameters WebsiteName="$(WebsiteName)" \
+                  --parameters HostingPlanName="asp-$(WebsiteName)" \
+                  --parameters WebAppImageName="DOCKER|$(registryName).azurecr.io/$(imageName):$(tag)" \
+                  --parameters AzureOpenAIKey="$(AZURE_OPENAI_KEY)"
+
+          - task: AzureCLI@2
+            displayName: Create Azure Container Registry and Enable System Assigned Managed Identity
+            inputs:
+              azureSubscription: $(subscriptionName)
+              scriptType: 'bash'
+              scriptLocation: 'inlineScript'
+              inlineScript: |
+                # Create Azure Container Registry
+                az acr create \
+                  --name $(registryName) \
+                  --resource-group $(resourceGroupName) \
+                  --location $(location) \
+                  --sku $(AcrSku) \
+                  --admin-enabled false
+
+          - task: AzureCLI@2
+            displayName: 'Grant Web App Access to ACR'
+            inputs:
+              azureSubscription: $(subscriptionName)
+              scriptType: 'bash'
+              scriptLocation: 'inlineScript'
+              inlineScript: |
+                # Get the id of the service principal configured for your web app
+                principalId=$(az webapp identity show --name $(WebsiteName) --resource-group $(resourceGroupName) --query principalId --out tsv)
+
+                # Get the id of your ACR
+                acrId=$(az acr show --name $(registryName) --resource-group $(resourceGroupName) --query "id" --output tsv)
+                
+                # Assign the acrpull role to the service principal
+                az role assignment create --assignee $principalId --role acrpull --scope $acrId
+
+- stage: DockerImage
+  displayName: Docker Image
+  dependsOn: 
+    - DeployInfrastructure
+  jobs:
+  - job: BuildPushDeployImageJob
+    displayName: Build, Push and Deploy Image Job
+    steps:
+    - task: Bash@3
+      displayName: Build and Push Docker Image
+      inputs:
+        targetType: 'inline'
+        script: |
+          az login --service-principal --username $(servicePrincipalId) --password $(servicePrincipalKey) --tenant $(tenantId)
+          az acr login --name $(registryName)
+          docker build -t $(registryName).azurecr.io/$(imageName):$(tag) -f $(Build.SourcesDirectory)/WebApp.Dockerfile .
+          docker push $(registryName).azurecr.io/$(imageName):$(tag)
+
+    - task: AzureCLI@2
+      displayName: 'Deploy Docker image using Azure CLI'
+      inputs:
+        azureSubscription: $(subscriptionName)
+        scriptType: 'bash'
+        scriptLocation: 'inlineScript'
+        inlineScript: |
+          az webapp config container set \
+            --name $(WebsiteName) \
+            --resource-group $(resourceGroupName) \
+            --docker-custom-image-name $(registryName).azurecr.io/$(imageName):$(tag) \
+            --docker-registry-server-url https://$(registryName).azurecr.io
+
+
+

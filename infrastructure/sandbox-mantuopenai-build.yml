@@ -1,0 +1,59 @@
+trigger:
+- none
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+variables:
+  - name: tag
+    value: '$(Build.BuildId)'
+  - name: imageName
+    value: 'mantuopenai-app'
+  - name: location
+    value: 'westeurope'
+  - name: registryName
+    value: 'chatbotsandbox'
+  - name: resourceGroupName
+    value: 'rg-Chatbot-Sandbox'
+  - name: AcrSku
+    value: 'Basic'
+  - name: subscriptionName
+    value: 'Mantu Group - NoProd'
+  - name: WebsiteName
+    value: 'mantuopenai-front-sandbox'
+  - name: servicePrincipalId
+    value: '5f2b1088-d3b0-4a92-bbc0-0e7741d19df2'
+  - name: tenantId
+    value: 'ce57ebe3-a63d-4708-b5cf-c274b48bd26c'
+
+  - group: rg-ChatBot-Sandbox
+
+
+
+
+stages:
+# ensure that resources are there and create if they are not
+  # acr
+  # asp
+  # appi
+  # cosmosdb account
+  # cosmosdb database
+  # cosmosdb database role
+  # webapp
+  
+- stage: DockerImage
+  displayName: Docker Image
+  jobs:
+  - job: BuildPushImageJob
+    displayName: Build, Push Image Job
+    steps:
+    - task: Bash@3
+      displayName: Build and Push Docker Image
+      inputs:
+        targetType: 'inline'
+        script: |
+          az login --service-principal --username $(servicePrincipalId) --password $(servicePrincipalKey) --tenant $(tenantId)
+          az acr login --name $(registryName)
+          docker build -t $(registryName).azurecr.io/$(imageName):$(tag) -f $(Build.SourcesDirectory)/WebApp.Dockerfile .
+          docker push $(registryName).azurecr.io/$(imageName):$(tag)
+

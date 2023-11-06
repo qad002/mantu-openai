@@ -39,7 +39,7 @@
         },
         "ApplicationInsightsName": {
             "type": "string",
-            "defaultValue": "[guid(resourceGroup().id)]",
+            "defaultValue": "[format('appi-{0}', parameters('WebsiteName'))]",
             "metadata": {
                 "description": "Name of Application Insights"
             }
@@ -130,25 +130,28 @@
         },
         "AzureOpenAIResource": {
             "type": "string",
+            "defaultValue": "",
             "metadata": {
                 "description": "Name of Azure OpenAI Resource"
             }
         },
         "AzureOpenAIModel": {
             "type": "string",
+            "defaultValue": "gpt4",
             "metadata": {
                 "description": "Azure OpenAI Model Deployment Name"
             }
         },
         "AzureOpenAIModelName": {
             "type": "string",
-            "defaultValue": "gpt-35-turbo",
+            "defaultValue": "gpt-4",
             "metadata": {
                 "description": "Azure OpenAI Model Name"
             }
         },
         "AzureOpenAIKey": {
             "type": "securestring",
+            "defaultValue": "",
             "metadata": {
                 "description": "Azure OpenAI Key"
             }
@@ -251,6 +254,13 @@
                 "description": "Azure OpenAI Embedding Deployment Name"
             }
         },
+        "WebAppImageName": {
+            "type": "string",
+            "defaultValue": "DOCKER|fruoccopublic.azurecr.io/sample-app-aoai-chatgpt:latest",
+            "metadata": {
+                "description": "Azure uses it in the Service Plan linuxFxVersion"
+            }
+        },
         "WebAppEnableChatHistory": {
             "type": "bool",
             "defaultValue": false,
@@ -260,7 +270,6 @@
         }
     },
     "variables": {
-        "WebAppImageName": "DOCKER|fruoccopublic.azurecr.io/sample-app-aoai-chatgpt:latest",
         "cosmosdb_account_name": "[format('db-{0}', parameters('WebsiteName'))]",
         "cosmosdb_database_name": "db_conversation_history",
         "cosmosdb_container_name": "conversations",
@@ -430,7 +439,7 @@
                             "value": "[variables('cosmosdb_container_name')]"
                         }
                     ],
-                    "linuxFxVersion": "[variables('WebAppImageName')]"
+                    "linuxFxVersion": "[parameters('WebAppImageName')]"
                 }
             }
         },
