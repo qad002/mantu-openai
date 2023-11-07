@@ -1,0 +1,51 @@
+trigger:
+- none
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+variables:
+  - name: tag
+    value: '$(Build.BuildId)'
+  - name: imageName
+    value: 'mantuopenai-app'
+  - name: location
+    value: 'westeurope'
+  - name: registryName
+    value: 'chatbotsandbox'
+  - name: resourceGroupName
+    value: 'rg-Chatbot-Sandbox'
+  - name: AcrSku
+    value: 'Basic'
+  - name: subscriptionName
+    value: 'Mantu Group - NoProd'
+  - name: WebsiteName
+    value: 'mantuopenai-front-sandbox'
+  - name: servicePrincipalId
+    value: '5f2b1088-d3b0-4a92-bbc0-0e7741d19df2'
+  - name: tenantId
+    value: 'ce57ebe3-a63d-4708-b5cf-c274b48bd26c'
+
+  - group: rg-ChatBot-Sandbox
+
+stages:
+- stage: DockerImage
+  displayName: Docker Image
+  dependsOn: 
+    - DeployInfrastructure
+  jobs:
+  - job: DeployImageJob
+    displayName: Deploy Image Job
+    steps:
+      - task: AzureRmWebAppDeployment@4
+        inputs:
+          ConnectionType: 'AzureRM'
+          azureSubscription: 'your-azure-connection'
+          appType: 'webAppContainer'
+          WebAppName: 'your-webapp-name'
+          deployToSlotOrASE: true
+          ResourceGroupName: 'your-resource-group'
+          SlotName: 'staging'
+          DockerNamespace: 'your-acr-name.azurecr.io'
+          DockerRepository: 'your-repo-name'
+          DockerImageTag: $(imageTag)
